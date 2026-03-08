@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - MovieMagic</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body data-theme="{{ session.get('user', {}).get('theme', 'dark') }}">
+
+<div class="navbar">
+
+    <div class="logo">MOVIEMAGIC</div>
+
+    <div class="user-menu">
+
+        <a href="{{ url_for('profile') }}" style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+
+            <div style="width:35px;height:35px;background:#e50914;border-radius:50%;display:flex;justify-content:center;align-items:center;font-weight:bold;">
+
+                {{ session['user']['name'][0] | upper }}
+
+            </div>
+
+            <span style="color:var(--text-white);">
+
+                Hi, {{ session['user']['name'] }}
+
+            </span>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="container fade-in">
+
+    <h2 class="section-title">Now Showing</h2>
+
+    <div class="movie-grid">
+
+        {% for movie in movies %}
+
+        <a href="{{ url_for('movie_details', movie_id=movie['movie_id']) }}"
+           class="movie-card"
+           style="text-decoration:none;color:inherit;display:block;">
+
+
+            {% if movie.image.startswith('http') %}
+
+                <img src="{{ movie.image }}"
+                     alt="{{ movie.title }}"
+                     class="movie-poster">
+
+            {% else %}
+
+                <img src="{{ url_for('static', filename=movie.image) }}"
+                     alt="{{ movie.title }}"
+                     class="movie-poster">
+
+            {% endif %}
+
+
+            <div class="movie-info">
+
+                <div class="movie-title">
+
+                    {{ movie.title }}
+
+                </div>
+
+                <div class="movie-genre">
+
+                    {{ movie.genre }}
+
+                </div>
+
+
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+
+                    <span style="color:var(--primary);font-weight:bold;font-size:0.75rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px;"
+                          title="{{ movie.language }}">
+
+                        {{ movie.language }}
+
+                    </span>
+
+
+                    <span class="btn-outline"
+                          style="padding:6px 12px;font-size:0.75rem;white-space:nowrap;">
+
+                        View Info
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </a>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

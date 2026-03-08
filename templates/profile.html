@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<!-- APPLY THEME TO BODY IMMEDIATELY -->
+<body data-theme="{{ user.get('theme', 'dark') }}">
+    <nav class="navbar">
+        <div class="logo">MOVIEMAGIC</div>
+        <a href="/dashboard" class="btn-outline">Back to Dashboard</a>
+    </nav>
+
+    <div class="container">
+        <!-- 1. Profile Header & Logout -->
+        <div class="profile-header">
+            <!-- Display first letter of name as avatar -->
+            <div class="avatar-circle">{{ user['name'][0] | upper }}</div>
+            <div>
+                <h2 style="margin-bottom: 5px;">{{ user['name'] }}</h2>
+                <p style="color: var(--text-gray);">{{ user['email'] }}</p>
+            </div>
+            <!-- Logout Button -->
+            <div style="margin-left: auto;">
+                <a href="/logout" class="btn-primary" style="background-color: #b20710;">Logout</a>
+            </div>
+        </div>
+
+        <!-- 2. Edit Profile Form -->
+        <div class="edit-form-container">
+            <form action="/update_profile" method="POST">
+                
+                <!-- Section 1: Account Details -->
+                <h3 class="section-heading">Account Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="text" name="mobile" value="{{ user.get('mobile', '') }}" placeholder="+91 - ">
+                    </div>
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <!-- Disabled because email is the primary key -->
+                        <input type="email" value="{{ user['email'] }}" disabled style="cursor: not-allowed; opacity: 0.6;">
+                    </div>
+                </div>
+
+                <!-- Section 2: Personal Details -->
+                <h3 class="section-heading" style="margin-top: 30px;">Personal Details</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>First Name *</label>
+                        <input type="text" name="first_name" value="{{ user.get('first_name', '') }}" placeholder="Enter first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Name *</label>
+                        <input type="text" name="last_name" value="{{ user.get('last_name', '') }}" placeholder="Enter last name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Birthday (Optional)</label>
+                        <input type="date" name="birthday" value="{{ user.get('birthday', '') }}">
+                    </div>
+
+                    <!-- THEME SELECTION (Dark/Light) -->
+                    <div class="form-group">
+                        <label>App Theme</label>
+                        <div class="toggle-group">
+                            <input type="radio" name="theme" id="theme_dark" value="dark" {% if user.get('theme', 'dark') == 'dark' %}checked{% endif %}>
+                            <label for="theme_dark" class="toggle-label">Dark Mode 🌙</label>
+                            
+                            <input type="radio" name="theme" id="theme_light" value="light" {% if user.get('theme') == 'light' %}checked{% endif %}>
+                            <label for="theme_light" class="toggle-label">Light Mode ☀️</label>
+                        </div>
+                    </div>
+
+                    <!-- Radio Buttons for Identity (Gender) -->
+                    <div class="form-group">
+                        <label>Identity (Optional)</label>
+                        <div class="toggle-group">
+                            <input type="radio" name="gender" id="woman" value="Woman" {% if user.get('gender') == 'Woman' %}checked{% endif %}>
+                            <label for="woman" class="toggle-label">Woman</label>
+                            
+                            <input type="radio" name="gender" id="man" value="Man" {% if user.get('gender') == 'Man' %}checked{% endif %}>
+                            <label for="man" class="toggle-label">Man</label>
+                        </div>
+                    </div>
+
+                    <!-- Radio Buttons for Married Status -->
+                    <div class="form-group">
+                        <label>Married? (Optional)</label>
+                        <div class="toggle-group">
+                            <input type="radio" name="married" id="yes" value="Yes" {% if user.get('married') == 'Yes' %}checked{% endif %}>
+                            <label for="yes" class="toggle-label">Yes</label>
+                            
+                            <input type="radio" name="married" id="no" value="No" {% if user.get('married') == 'No' %}checked{% endif %}>
+                            <label for="no" class="toggle-label">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-save">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- 3. Booking History -->
+        <h3 class="section-title">Booking History</h3>
+        <div class="history-list">
+            {% if bookings %}
+                {% for booking in bookings %}
+                <div class="history-card">
+                    <div class="history-left">
+                        <h4 style="color: var(--primary); margin-bottom: 5px; font-size: 1.2rem;">{{ booking.movie_name }}</h4>
+                        <p style="font-size: 0.9rem; color: var(--text-gray);">{{ booking.theater }}</p>
+                        <p style="font-size: 0.8rem; color: var(--text-gray); margin-top: 5px;">ID: {{ booking.booking_id }}</p>
+                    </div>
+                    <div class="history-right">
+                        <div class="tag">{{ booking.date }}</div>
+                        <div class="tag">{{ booking.time }}</div>
+                        <div class="tag price">₹{{ booking.amount_paid }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div style="text-align: center; color: var(--text-gray); margin-top: 50px;">
+                    <p>No bookings found yet.</p>
+                    <a href="/dashboard" class="btn-primary" style="margin-top: 20px; display: inline-block;">Book a Movie</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

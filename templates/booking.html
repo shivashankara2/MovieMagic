@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Book Seats</title>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+<script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+
+</head>
+
+<body data-theme="{{ session.get('user', {}).get('theme', 'dark') }}">
+
+<nav class="navbar">
+<div class="logo">MOVIEMAGIC</div>
+<a href="/dashboard" class="btn-outline">Back</a>
+</nav>
+
+<div class="container">
+
+<div class="booking-layout" data-price="{{ price }}">
+
+<!-- LEFT SIDE (THEATER & SEATS) -->
+
+<div class="theater-side">
+
+<h2 style="margin-bottom:5px;">{{ movie }}</h2>
+
+<p style="color:var(--text-gray); margin-bottom:40px;">
+{{ theater }} | {{ address }}
+</p>
+
+<div class="screen">SCREEN</div>
+
+<div class="seats-grid">
+
+{% for row in ['A','B','C','D','E','F'] %}
+{% for col in range(1,9) %}
+
+<div class="seat" data-id="{{ row }}{{ col }}">
+{{ row }}{{ col }}
+</div>
+
+{% endfor %}
+{% endfor %}
+
+</div>
+</div>
+
+
+<!-- RIGHT SIDE (BOOKING SUMMARY) -->
+
+<div class="summary-side">
+
+<div class="booking-card">
+
+<h3 style="margin-bottom:20px; border-bottom:1px solid var(--glass-border); padding-bottom:10px;">
+Booking
+</h3>
+
+<form action="/confirm_booking" method="POST">
+
+<input type="hidden" name="movie" value="{{ movie }}">
+<input type="hidden" name="theater" value="{{ theater }}">
+<input type="hidden" name="address" value="{{ address }}">
+<input type="hidden" name="seats" id="input-seats" required>
+<input type="hidden" name="amount" id="input-amount">
+
+<div style="margin-bottom:15px;">
+
+<label style="font-size:0.8rem; color:var(--text-gray);">
+DATE
+</label>
+
+<input type="date"
+name="date"
+required
+style="width:100%;
+background:var(--input-bg);
+border:1px solid var(--glass-border);
+color:var(--text-white);
+padding:10px;
+border-radius:5px;">
+
+</div>
+
+
+<div style="margin-bottom:15px;">
+
+<label style="font-size:0.8rem; color:var(--text-gray);">
+TIME
+</label>
+
+<select name="time"
+required
+style="width:100%;
+background:var(--input-bg);
+border:1px solid var(--glass-border);
+color:var(--text-white);
+padding:10px;
+border-radius:5px;">
+
+<option>10:00 AM</option>
+<option>01:00 PM</option>
+<option>04:00 PM</option>
+
+</select>
+
+</div>
+
+
+<div style="display:flex; justify-content:space-between; margin-top:30px;">
+
+<span>Total</span>
+
+<span style="font-weight:bold; font-size:1.2rem;">
+₹<span id="total">0</span>
+</span>
+
+</div>
+
+
+<button type="submit"
+class="btn-primary"
+style="width:100%; margin-top:20px;">
+
+PROCEED TO PAY
+
+</button>
+
+</form>
+
+</div>
+</div>
+
+</div>
+
+</div>
+
+</body>
+</html>

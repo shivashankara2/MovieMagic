@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmed</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <!-- Library for downloading images -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<!-- UPDATED: Added data-theme for Light/Dark mode support -->
+<body data-theme="{{ session.get('user', {}).get('theme', 'dark') }}">
+    <div class="ticket-container">
+        <h2 style="margin-bottom: 20px; color: var(--text-white);">Booking Confirmed!</h2>
+        
+        <!-- Ticket Capture Area -->
+        <div class="ticket" id="ticket-capture">
+            <div class="ticket-visual"></div>
+            <div class="ticket-details">
+                <h2 style="color: #e50914; text-transform: uppercase; margin-bottom: 5px;">{{ booking.movie_name }}</h2>
+                <p style="color: #888; font-size: 0.9rem; margin-bottom: 20px;">{{ booking.theater }}</p>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 0.9rem;">
+                    <div><span style="color: #aaa; font-size: 0.7rem;">DATE</span><br><b>{{ booking.date }}</b></div>
+                    <div><span style="color: #aaa; font-size: 0.7rem;">TIME</span><br><b>{{ booking.time }}</b></div>
+                    <div><span style="color: #aaa; font-size: 0.7rem;">SEATS</span><br><b style="color: #e50914;">{{ booking.seats }}</b></div>
+                    <div><span style="color: #aaa; font-size: 0.7rem;">PAID</span><br><b>₹{{ booking.amount_paid }}</b></div>
+                </div>
+                
+                <!-- BARCODE SECTION -->
+                <div style="border-top: 2px dashed #ddd; padding-top: 20px; text-align: center; margin-top: 20px;">
+                    <img src="https://bwipjs-api.metafloor.com/?bcid=code128&text={{ booking.booking_id }}&scale=2&height=8&includetext" 
+                         alt="Barcode" 
+                         style="width: 100%; height: auto; opacity: 0.8;">
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <button onclick="downloadTicket()" class="btn-outline" style="cursor: pointer;">Download Ticket</button>
+            <a href="/dashboard" class="btn-primary" style="margin-left: 20px;">Home</a>
+        </div>
+    </div>
+
+    <script>
+        function downloadTicket() {
+            const ticketElement = document.getElementById("ticket-capture");
+            
+            // 1. Temporarily remove 3D animation to prevent glitch
+            const originalAnimation = ticketElement.style.animation;
+            const originalTransform = ticketElement.style.transform;
+            
+            ticketElement.style.animation = "none";
+            ticketElement.style.transform = "none";
+            
+            // 2. Capture
+            setTimeout(() => {
+                html2canvas(ticketElement, {
+                    scale: 3,
+                    useCORS: true, 
+                    backgroundColor: "#ffffff",
+                    scrollY: -window.scrollY
+                }).then(canvas => {
+                    const link = document.createElement("a");
+                    link.download = 'MovieMagic-Ticket.png';
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                    
+                    // 3. Restore Animation
+                    ticketElement.style.animation = originalAnimation;
+                    ticketElement.style.transform = originalTransform;
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>

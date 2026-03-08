@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Get Started</title>
+    <!-- Link to the external CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Icons for Google/Apple/Email -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-overlay">
+        <div class="auth-modal">
+            <div class="modal-header">
+                <h2>Get Started</h2>
+                <!-- Close button returns to home -->
+                <a href="/" class="close-btn">&times;</a>
+            </div>
+
+            <!-- 1. Email & Password Sign In (Primary Option) -->
+            <div id="email-form-container" style="margin-bottom: 10px;">
+                <form method="POST">
+                    <input type="email" name="email" placeholder="Email Address" required class="modal-input">
+                    <input type="password" name="password" placeholder="Password" required class="modal-input">
+                    <button type="submit" class="btn-primary modal-submit">LOGIN</button>
+                </form>
+                <div style="font-size: 0.85rem; color: #666; margin-top: 10px; margin-bottom: 5px;">
+                    New member? <a href="/signup" style="color: #e50914; font-weight: bold;">Sign Up</a>
+                </div>
+            </div>
+
+            <div class="divider">OR</div>
+
+            <!-- 2. Google Button -->
+            <button class="social-btn">
+                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google"> 
+                Continue with Google
+            </button>
+
+            <p class="terms">
+                I agree to the <a href="#">Terms & Conditions</a> and <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

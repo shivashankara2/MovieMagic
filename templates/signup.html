@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="auth-overlay">
+        <div class="auth-modal">
+            <div class="modal-header">
+                <h2>Create an Account</h2>
+                <a href="/" class="close-btn">&times;</a>
+            </div>
+
+            <!-- ✅ FLASH MESSAGES -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div style="color:red; margin-bottom:10px; text-align:center;">
+                      {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+
+            <!-- Signup Form -->
+            <form method="POST" action="/signup" style="margin-bottom: 20px;">
+                <input type="text" name="name" placeholder="Full Name" required class="modal-input">
+                <input type="email" name="email" placeholder="Email Address" required class="modal-input">
+                <input type="password" name="password" placeholder="Password" required class="modal-input">
+                <button type="submit" class="btn-primary modal-submit">SIGN UP</button>
+            </form>
+
+            <div class="divider">OR</div>
+
+            <button class="social-btn">
+                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google"> 
+                Continue with Google
+            </button>
+
+            <div style="font-size: 0.85rem; color: #666; margin-top: 15px;">
+                Already have an account? 
+                <a href="/login" style="color: #e50914; font-weight: bold;">Login</a>
+            </div>
+
+            <p class="terms">
+                I agree to the <a href="#">Terms & Conditions</a> and 
+                <a href="#">Privacy Policy</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

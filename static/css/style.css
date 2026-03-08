@@ -1,0 +1,600 @@
+:root {
+    /* --- DEFAULT DARK THEME VARIABLES --- */
+    --primary: #e50914; /* Netflix Red */
+    --dark-bg: #0b0c15; /* Deep Cinematic Blue/Black */
+    --card-bg: #151f30;
+    --text-white: #ffffff;
+    --text-gray: #a3a3a3;
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    --input-bg: rgba(0,0,0,0.3); /* Transparent dark for inputs */
+}
+
+/* --- LIGHT THEME OVERRIDES --- */
+[data-theme="light"] {
+    --dark-bg: #f4f7f6;       /* Light Gray Background */
+    --card-bg: #ffffff;       /* White Cards */
+    --text-white: #1a1a1a;    /* Dark Text */
+    --text-gray: #555555;     /* Medium Gray Text */
+    --glass: rgba(0, 0, 0, 0.03);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    --input-bg: #e9ecef;      /* Light Gray Inputs */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+
+body {
+    background-color: var(--dark-bg);
+    color: var(--text-white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s, color 0.3s; /* Smooth Theme Switch */
+}
+
+a { text-decoration: none; color: inherit; transition: 0.3s; }
+ul { list-style: none; }
+
+/* --- 1. GLASSMORPHISM NAVBAR --- */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: var(--card-bg); /* Adapts to theme */
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid var(--glass-border);
+    transition: background 0.3s;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.user-menu { display: flex; align-items: center; gap: 20px; font-size: 0.9rem; }
+
+.btn-outline {
+    border: 1px solid var(--text-gray); /* Adapted */
+    padding: 8px 20px;
+    border-radius: 50px;
+    color: var(--text-white);
+}
+.btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+
+/* --- 2. AUTH PAGES --- */
+.auth-container {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--dark-bg); /* Adapted */
+}
+
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    padding: 50px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: var(--shadow);
+    text-align: center;
+    animation: fadeUp 0.8s ease;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    background: var(--input-bg); /* Adapted */
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--text-white);
+    outline: none;
+    transition: border-color 0.3s;
+}
+.form-group input:focus { border-color: var(--primary); }
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    padding: 15px;
+    width: 100%;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary:hover {
+    background: #b20710;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(229, 9, 20, 0.4);
+}
+
+/* --- 3. LANDING PAGE HERO --- */
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('../images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-color: #111;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    background: -webkit-linear-gradient(#fff, #aaa);
+    background: linear-gradient(#fff, #aaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
+/* --- 4. DASHBOARD GRID --- */
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+
+.section-title {
+    font-size: 2rem;
+    margin-bottom: 30px;
+    position: relative;
+    padding-left: 20px;
+    color: var(--text-white);
+}
+.section-title::before {
+    content: ''; position: absolute; left: 0; top: 5px; height: 80%; width: 5px; background: var(--primary); border-radius: 2px;
+}
+
+.movie-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.movie-card {
+    background: var(--card-bg);
+    width: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.movie-card:hover { transform: translateY(-10px) scale(1.02); z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+
+.movie-poster { width: 100%; height: 350px; object-fit: cover; }
+
+.movie-info { padding: 20px; }
+.movie-title { font-size: 1.2rem; font-weight: 600; margin-bottom: 5px; color: var(--text-white); }
+.movie-genre { color: var(--text-gray); font-size: 0.9rem; margin-bottom: 15px; }
+
+/* --- 5. BOOKING PAGE --- */
+.booking-layout { display: flex; gap: 40px; margin-top: 20px; }
+.theater-side { flex: 2; }
+.summary-side { flex: 1; }
+
+.screen {
+    height: 60px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.8), transparent);
+    transform: perspective(1000px) rotateX(-10deg) scale(0.9);
+    box-shadow: 0 20px 50px rgba(255,255,255,0.1);
+    margin-bottom: 50px;
+    border-radius: 50% 50% 0 0 / 20px 20px 0 0;
+    text-align: center;
+    padding-top: 20px;
+    color: rgba(255,255,255,0.3);
+    font-size: 0.8rem;
+    letter-spacing: 5px;
+}
+
+.seats-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 12px;
+    justify-content: center;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.seat {
+    height: 35px;
+    background: #2a3b55;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.4);
+}
+/* Seat color fix for Light Mode */
+[data-theme="light"] .seat { background: #cbd5e1; color: #333; }
+
+.seat:hover:not(.occupied) { background: #4a6fa5; color: white; transform: scale(1.2); }
+.seat.selected { background: var(--primary); color: white; box-shadow: 0 0 10px var(--primary); }
+.seat.occupied { background: #1a1a1a; cursor: not-allowed; }
+
+.booking-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    position: sticky;
+    top: 100px;
+    box-shadow: var(--shadow);
+}
+
+/* --- 6. TICKET STUB --- */
+.ticket-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    flex-direction: column;
+}
+
+.ticket {
+    display: flex;
+    background: white; /* Always white */
+    color: black;
+    width: 700px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 50px rgba(229, 9, 20, 0.3);
+    animation: printTicket 1s ease-out;
+    margin-bottom: 30px;
+}
+
+.ticket-visual { flex: 1; background: url('../images/background.jpg') center/cover; position: relative; }
+.ticket-visual::after { content: ''; position: absolute; inset: 0; background: rgba(229,9,20,0.8); }
+
+.ticket-details { flex: 2; padding: 40px; position: relative; border-left: 2px dashed #ccc; }
+.ticket-details h1 { font-size: 2rem; color: var(--primary); text-transform: uppercase; margin-bottom: 10px; }
+
+/* Animations */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes printTicket { from { transform: translateY(-50px) rotateX(-90deg); opacity: 0; } to { transform: translateY(0) rotateX(0); opacity: 1; } }
+
+/* --- 7. PROFILE PAGE --- */
+.profile-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 50px;
+    border: 1px solid var(--glass-border);
+}
+
+.avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: var(--primary);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.history-card {
+    background: var(--card-bg); /* Adapted */
+    padding: 25px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.3s;
+    border-left: 4px solid transparent;
+    border: 1px solid var(--glass-border);
+}
+
+.history-card:hover {
+    background: var(--glass);
+    border-left: 4px solid var(--primary);
+    transform: translateX(10px);
+}
+
+.history-right {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.tag {
+    background: var(--input-bg);
+    padding: 5px 15px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    color: var(--text-gray);
+    border: 1px solid var(--glass-border);
+}
+
+.tag.price {
+    color: var(--primary);
+    font-weight: bold;
+    border-color: var(--primary);
+}
+
+/* --- 8. PROFILE EDIT & ACTIONS --- */
+.edit-form-container {
+    background: var(--card-bg);
+    padding: 40px;
+    border-radius: 15px;
+    margin-bottom: 40px;
+    border: 1px solid var(--glass-border);
+    max-width: 900px;
+}
+
+.section-heading {
+    color: var(--text-white);
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Form inputs inside profile */
+.form-group label {
+    display: block;
+    color: var(--text-gray);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="date"] {
+    width: 100%;
+    padding: 12px;
+    background: var(--input-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+    color: var(--text-white);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+}
+
+/* Custom Radio Toggles (Identity/Married/Theme) */
+.toggle-group {
+    display: flex;
+    gap: 15px;
+}
+
+.toggle-label {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
+    background: var(--input-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 6px;
+    cursor: pointer;
+    color: var(--text-gray);
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+/* Hide actual radio buttons */
+input[type="radio"] {
+    display: none;
+}
+
+/* Checked State */
+input[type="radio"]:checked + .toggle-label {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.btn-save {
+    background: #28a745;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+.btn-save:hover { background: #218838; }
+
+.btn-danger {
+    background: var(--primary);
+    color: white;
+    padding: 10px 25px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+}
+.btn-danger:hover { background: #b20710; }
+
+/* Responsive Grid for mobile */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr; /* Stack inputs on small screens */
+    }
+}
+
+/* --- 9. LOGIN MODAL STYLES --- */
+.auth-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.auth-modal {
+    background: #ffffff; /* White Card */
+    color: #333;
+    width: 90%;
+    max-width: 400px;
+    padding: 24px;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    text-align: center;
+    position: relative;
+    font-family: 'Roboto', sans-serif;
+}
+
+.modal-header h2 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: #333;
+}
+
+.close-btn {
+    position: absolute;
+    top: 15px; right: 20px;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.social-btn:hover {
+    background-color: #f9f9f9;
+    border-color: #ccc;
+}
+
+.social-btn img { width: 18px; height: 18px; }
+
+.divider {
+    font-size: 0.75rem;
+    color: #999;
+    margin: 20px 0;
+    position: relative;
+}
+.divider::before, .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 42%;
+    height: 1px;
+    background: #e0e0e0;
+}
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+
+.mobile-input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 30px;
+}
+
+.mobile-input-container span { margin: 0 10px; font-weight: 500; color: #333; }
+.mobile-field { border: none; outline: none; width: 100%; font-size: 1rem; }
+
+.terms { font-size: 0.7rem; color: #777; }
+.terms a { color: #e50914; text-decoration: none; }
+
+/* Modal specific inputs */
+.modal-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    color: #333;
+}
+.modal-submit {
+    width: 100%;
+    padding: 12px;
+    background: #e50914;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* --- 10. ADMIN PORTAL --- */
+.glass-card label {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--text-gray); /* Adapted */
+    font-size: 0.9rem;
+}
+textarea {
+    width: 100%;
+    padding: 15px;
+    background: var(--input-bg); /* Adapted */
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: var(--text-white);
+    outline: none;
+    font-family: inherit;
+    resize: vertical;
+}
